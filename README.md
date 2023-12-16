@@ -55,3 +55,34 @@ instead of sending syscalls.
 
 Because the kernel is a microkernel the calls to `open` and `write` don't initiate syscalls but rather
 send messages as IPC.
+
+## Setup
+
+### Build
+
+```shell
+git clone purple
+
+rustup default nightly
+rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
+
+cd ~/
+cargo install bootimage 
+rustup component add llvm-tools-preview
+```
+
+```shell
+cd purple/kernel
+cargo bootimage
+```
+
+### Run
+
+
+```shell
+sudo apt install qemu-system
+cargo run
+```
+
+## Useful References
+* https://os.phil-opp.com/
