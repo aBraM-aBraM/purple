@@ -28,8 +28,13 @@ x86_64 = "0.14.11"
 version = "1.4.0"
 features = ["spin_no_std"]
 
+# fatal tests such as panics and non-recoverable interrupts
+# don't require a runner and are executed like a normal binary
+
 [[test]]
-# should_panic doesn't have a runner (doesn't use default nor custom test runner)
-# so it is executed like a normal binary instead
 name = "should_panic"
+harness = false
+
+[[test]]
+name = "stack_overflow"
 harness = false
