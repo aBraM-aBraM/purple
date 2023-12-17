@@ -15,7 +15,7 @@ pub extern "C" fn _start() -> ! {
     #[cfg(test)]
     test_main();
 
-    kernel::hlt_loop();
+    kernel::interrupts::hlt_loop();
 }
 
 use core::panic::PanicInfo;
@@ -24,7 +24,7 @@ use core::panic::PanicInfo;
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    kernel::hlt_loop();
+    kernel::interrupts::hlt_loop();
 }
 
 #[cfg(test)]

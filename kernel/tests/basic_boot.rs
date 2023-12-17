@@ -11,7 +11,7 @@ use kernel::println;
 pub extern "C" fn _start() -> ! {
     test_main();
 
-    kernel::hlt_loop();
+    kernel::interrupts::hlt_loop();
 }
 
 #[panic_handler]
