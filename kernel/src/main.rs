@@ -10,6 +10,8 @@ use kernel::println;
 pub extern "C" fn _start() -> ! {
     println!("Hello World{}", "!");
 
+    kernel::init();
+
     #[cfg(test)]
     test_main();
 
