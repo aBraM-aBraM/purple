@@ -3,11 +3,33 @@ name = "kernel"
 version = "0.1.0"
 edition = "2021"
 
+[package.metadata.bootimage]
+# use qemu debug exit feature to make tests close qemu
+# 0xf4 is a generally unused port on the x86’s IO bus
+test-args = ["-device", "isa-debug-exit,iobase=0xf4,iosize=0x04",
+    # redirect serial to stdout to read test results from host console
+    "-serial", "stdio",
+    # remove qemu window
+    "-display", "none"]
+# tests don't return 0 as the exit code written to the debug-exit port is
+# modified like so: (exit_code << 1) | 1
+# this line configures bootimage to map the exit code to 0
+# this way cargo receives 0 and the tests pass
+test-success-exit-code = 33
+
 [dependencies]
 bootloader = "0.9.23" # TODO: fix getrandom error on modern versions
 spin = "0.9.8"
+uart_16550 = "0.3.0"
 volatile = "0.2.6"
+x86_64 = "0.14.11"
 
 [dependencies.lazy_static]
 version = "1.4.0"
 features = ["spin_no_std"]
+
+[[test]]
+# should_panic doesn't have a runner (doesn't use default nor custom test runner)
+# so it is executed like a normal binary instead
+name = "should_panic"
+harness = false
